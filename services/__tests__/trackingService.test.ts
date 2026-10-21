@@ -14,11 +14,8 @@ import { RouteData } from '@/types/tracking';
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Provide a simple isAxiosError implementation on the mocked axios
-(mockedAxios.isAxiosError as any) = (error: any): error is any => Boolean(error && error.isAxiosError === true);
-// Provide a simple isAxiosError implementation on the mocked axios. The real
-// export is a type guard, so the stub is cast back to its declared signature.
-(mockedAxios.isAxiosError as unknown as jest.Mock).mockImplementation(
+// Provide a simple isAxiosError implementation on the mocked axios.
+(mockedAxios.isAxiosError as unknown as jest.Mock) = jest.fn(
   (error: any) => error && error.isAxiosError === true,
 );
 
