@@ -12,14 +12,13 @@ import {
 } from '@/services/trackingService';
 import { RouteData } from '@/types/tracking';
 
-const mockedAxios = axios as jest.Mocked<typeof axios> & { isAxiosError?: (e: any) => boolean };
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Provide a simple isAxiosError implementation on the mocked axios
-mockedAxios.isAxiosError = (error: any) => error && error.isAxiosError === true;
+(mockedAxios.isAxiosError as any) = (error: any): error is any => Boolean(error && error.isAxiosError === true);
 
 describe('trackingService', () => {
   const mockDeliveryId = 'delivery-123';
-  const mockCoordinate = { latitude: 6.5244, longitude: 3.3792 };
 
   const mockRouteData: RouteData = {
     deliveryId: mockDeliveryId,
